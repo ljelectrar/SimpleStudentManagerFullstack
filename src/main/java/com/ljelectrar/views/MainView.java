@@ -14,21 +14,33 @@ import com.vaadin.flow.router.Route;
 @PageTitle(value="Home")
 public class MainView extends VerticalLayout {
 	
+	private LogoLayout logoLayout;
+	
 	private Grid<Student> grid;
 	
 	public MainView() {
 		
+		
 		setSizeFull();
 		setAlignItems(Alignment.CENTER);
 		
+		createFieldVariables();
+		
+		add(logoLayout ,grid);
+		
+		loadStudents();
+		
+	}
+	
+	private void createFieldVariables() {
+		logoLayout = new LogoLayout();
+		grid = new Grid<>(Student.class);
+	}
+	
+	private void loadStudents() {
 		List<Student> students = new ArrayList<>();
 		students.add(new Student("Leandro Junior", 28, 27257515, "BR", new Status("Reactive")));
-		
-		// GRID
-		grid = new Grid<>(Student.class);
 		grid.setItems(students);
-		
-		add(grid);
-	}
+	}	
 	
 }
