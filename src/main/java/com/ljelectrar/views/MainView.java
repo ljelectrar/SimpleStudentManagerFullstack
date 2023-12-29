@@ -1,7 +1,11 @@
 package com.ljelectrar.views;
 
-import com.vaadin.flow.component.Text;
-import com.vaadin.flow.component.button.Button;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.ljelectrar.models.Status;
+import com.ljelectrar.models.Student;
+import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
@@ -10,10 +14,21 @@ import com.vaadin.flow.router.Route;
 @PageTitle(value="Home")
 public class MainView extends VerticalLayout {
 	
+	private Grid<Student> grid;
+	
 	public MainView() {
-		add(new Button("Click", event ->{
-			add(new Text("Hello World"));
-		}));
+		
+		setSizeFull();
+		setAlignItems(Alignment.CENTER);
+		
+		List<Student> students = new ArrayList<>();
+		students.add(new Student("Leandro Junior", 28, 27257515, "BR", new Status("Reactive")));
+		
+		// GRID
+		grid = new Grid<>(Student.class);
+		grid.setItems(students);
+		
+		add(grid);
 	}
 	
 }
