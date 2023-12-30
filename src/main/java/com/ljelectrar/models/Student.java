@@ -1,12 +1,27 @@
 package com.ljelectrar.models;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
 public class Student {
 	
-	private String name;
-	private int age;
-	private int zipcode;
-	private String country;
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private Integer id;
 	
+	@Column
+	private String name;
+	@Column
+	private int age;
+	@Column
+	private int zipcode;
+	@Column
+	private String country;
+	@Column
 	private Status status;
 	
 	public Student() {
