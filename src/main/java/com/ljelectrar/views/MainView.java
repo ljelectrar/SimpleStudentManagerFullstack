@@ -58,6 +58,7 @@ public class MainView extends VerticalLayout {
 			
 			return icon;
 		}).setHeader("Status");
+	
 		
 		grid.getColumns().forEach(col -> col.setAutoWidth(true));
 	}
