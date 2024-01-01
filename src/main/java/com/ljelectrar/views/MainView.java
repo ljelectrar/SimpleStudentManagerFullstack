@@ -1,14 +1,15 @@
 package com.ljelectrar.views;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.ljelectrar.models.Status;
 import com.ljelectrar.models.Student;
+import com.ljelectrar.services.StudentService;
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
@@ -16,12 +17,14 @@ import com.vaadin.flow.router.Route;
 @PageTitle(value="Home")
 public class MainView extends VerticalLayout {
 	
+	// Constructor injection
+	private final StudentService studentService;
 	private LogoLayout logoLayout;
-	
 	private Grid<Student> grid;
+	private TextField filterField;
 	
-	public MainView() {
-		
+	public MainView(StudentService studentService ) {
+		this.studentService = studentService;
 		
 		setSizeFull();
 		setAlignItems(Alignment.CENTER);
@@ -31,9 +34,22 @@ public class MainView extends VerticalLayout {
 		loadStudents();
 		configureGrid();
 		
-		add(logoLayout ,grid);
+		add(logoLayout, createToolBar(),grid);
 	}
 	
+	private Component createToolBar() {
+		filterField.setPlaceholder("Filter by name...");
+		filterField.setClearButtonVisible(true);
+		filterField.setValueChangeMode(ValueChangeMode.LAZY);
+		filterField.addValueChangeListener(event -> updateStudents());
+
+		return new HorizontalLayout(filterField);
+	}
+	
+	private void updateStudents() {
+		grid.setItems(studentService.find(filterField.getValue()));
+	}
+
 	private void configureGrid() {
 		grid.setSizeFull();
 		grid.setColumns("country", "zipcode");
@@ -45,10 +61,10 @@ public class MainView extends VerticalLayout {
 			// to different status
 			Icon icon;
 			
-			if(s.getStatus().equals("ACTIVE")) {
+			if(s.getStatus().getName().equals("ACTIVE")) {
 				icon = VaadinIcon.CIRCLE.create();
 				icon.setColor("green");
-			} else if (s.getStatus().equals("PASSIVE")) {
+			} else if (s.getStatus().getName().equals("PASSIVE")) {
 				icon = VaadinIcon.CLOSE_CIRCLE.create();
 				icon.setColor("red");
 			} else {
@@ -64,16 +80,13 @@ public class MainView extends VerticalLayout {
 	}
 	
 	private void createFieldVariables() {
-		logoLayout = new LogoLayout();
-		grid = new Grid<>(Student.class);
+		this.logoLayout = new LogoLayout();
+		this.grid = new Grid<>(Student.class);
+		this.filterField = new TextField();
 	}
 	
 	private void loadStudents() {
-		List<Student> students = new ArrayList<>();
-		students.add(new Student("Leandro Junior", 28, 27257515, "BR", new Status("ACTIVE")));
-		students.add(new Student("Maiara", 21, 27257500, "BR", new Status("PASSIVE")));
-		students.add(new Student("Julia", 26, 27257500, "BR", new Status("ABSOLVED")));
-		grid.setItems(students);
+		grid.setItems(studentService.findAll());
 	}	
 	
 }

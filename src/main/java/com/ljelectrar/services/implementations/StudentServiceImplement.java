@@ -34,8 +34,7 @@ public class StudentServiceImplement implements StudentService {
 	@Override
 	public List<Student> find(String substring) {
 		
-		// JPQL query soon!
-		return null;
+		return repository.findStudents(substring);
 	}
 
 }
