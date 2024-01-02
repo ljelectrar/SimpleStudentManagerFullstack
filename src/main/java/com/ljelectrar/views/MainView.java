@@ -3,6 +3,7 @@ package com.ljelectrar.views;
 import com.ljelectrar.models.Student;
 import com.ljelectrar.services.StudentService;
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -13,7 +14,7 @@ import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
-@Route(value="/index")
+@Route(value="")
 @PageTitle(value="Home")
 public class MainView extends VerticalLayout {
 	
@@ -42,8 +43,17 @@ public class MainView extends VerticalLayout {
 		filterField.setClearButtonVisible(true);
 		filterField.setValueChangeMode(ValueChangeMode.LAZY);
 		filterField.addValueChangeListener(event -> updateStudents());
+		
+		Button addStudentButton = new Button("Add Student");
+		Button removeStudentButton = new Button("Remove Student");
+		
+		addStudentButton.addClickListener(event -> getUI()
+				.ifPresent(ui -> ui.navigate("add-student")));
+		
+		removeStudentButton.addClickListener(event -> getUI()
+				.ifPresent(ui -> ui.navigate("remove-student")));
 
-		return new HorizontalLayout(filterField);
+		return new HorizontalLayout(filterField, addStudentButton, removeStudentButton);
 	}
 	
 	private void updateStudents() {

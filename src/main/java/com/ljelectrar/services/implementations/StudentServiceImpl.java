@@ -10,7 +10,7 @@ import com.ljelectrar.repositories.StudentRepository;
 import com.ljelectrar.services.StudentService;
 
 @Service
-public class StudentServiceImplement implements StudentService {
+public class StudentServiceImpl implements StudentService {
 
 	@Autowired
 	private StudentRepository repository;

@@ -10,8 +10,8 @@ public class LogoLayout extends HorizontalLayout {
 	public LogoLayout() {
 		image = new Image("../../images/logo.png", "My image");
 		
-		image.setHeight("250px");
-		image.setWidth("250px");
+		image.setHeight("200px");
+		image.setWidth("200px");
 		
 		setJustifyContentMode(JustifyContentMode.CENTER);
 		

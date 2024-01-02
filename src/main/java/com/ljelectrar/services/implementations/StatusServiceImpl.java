@@ -10,7 +10,7 @@ import com.ljelectrar.repositories.StatusRepository;
 import com.ljelectrar.services.StatusService;
 
 @Service
-public class StatusServiceImplement implements StatusService{
+public class StatusServiceImpl implements StatusService{
 
 	@Autowired
 	private StatusRepository repository;
